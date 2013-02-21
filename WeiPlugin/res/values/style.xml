@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+	<style name="Theme" parent="android:Theme">
+	</style>
+	
+    <style name="Theme.Default">
+        <item name="android:textColor">@android:color/background_dark</item>
+    </style>
+    <style name="Theme.Default_light">
+        <item name="android:textColor">@android:color/background_light</item>
+    </style>
+	
+</resources>

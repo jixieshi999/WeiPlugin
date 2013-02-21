@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    
+    <string name="sql_create_tables">"
+    
+        #井号开头为注释，分号表示表分割，井号注释也需要分号分割;
+        #配置表;
+        create table Configs(
+            ID integer PRIMARY KEY,
+            property vacher(20),
+            key vacher(20) not null,
+            data varcher(30),
+            int type
+        );
+        
+        #字典表;
+        create table Dirctionarys(
+            ID integer PRIMARY KEY,
+            key vacher(20) not null,
+            value vacher(50)
+        );
+        
+        #插件表;
+        create table Plugins(
+            className vacher(100) PRIMARY KEY,
+            type int,level int,
+            name vacher(20),
+            destription vacher(100),
+            cmd vacher(20),
+            show int default 0 
+        );
+        
+        #插件表;
+        create table PluginsCommand(
+            className vacher(100) not null,
+            type int,level int,name vacher(20),
+            destription vacher(100),
+            cmd vacher(20) not null,
+            show int default 0,
+            primary key (className,cmd)
+        );
+        
+        
+        #命令表;
+        create table Comnand(
+            ID integer PRIMARY KEY,
+            time vacher(50),
+            level integer,
+            words  vacher(100),
+            editble  vacher(1) default 0,
+            reusable vacher(1) default 0,
+            type  vacher(20),
+            param  vacher(20),
+            extra vacher(50),
+            dirty  vacher(1),
+            keyword  vacher(50) not null
+        );
+        
+    
+    "</string>
+    
+</resources>

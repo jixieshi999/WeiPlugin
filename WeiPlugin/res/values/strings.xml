@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    
+    <string name="hello">Hello World, test!</string>
+    <string name="app_name">WeiPlugin</string>
+    <string name="path_config">config</string>
+    <string name="path_root">weiplugin</string>
+    <string name="path_log">log</string>
+    <string name="path_word">word</string>
+    <string name="path_image">image</string>
+    <string name="path_plugin">plugin</string>
+    
+    <string name="filename_log">"Log.txt"</string>
+    <string name="filename_word">"Words.txt"</string>
+    <string name="filename_config">"Config.txt"</string>
+    
+    <string name="filename_word_eat">"Eat.txt"</string>
+    <string name="filename_word_drink">"Drink.txt"</string>
+    <string name="filename_word_sleep">"Sleep.txt"</string>
+    <string name="filename_word_mood">"Mood.txt"</string>
+    <string name="filename_word_speak">"Speak.txt"</string>
+    <string name="rss_name">"RSS"</string>
+    
+        
+    <string-array name="default_paths">
+        <item>"/HWUserData"</item>
+        <item>"/data/HWUserData"</item>
+        <item>"/mnt/sdcard"</item>
+        <item>"/mnt/ext_sdcard"</item>
+        <item>"/mnt/sdcard2"</item>
+    </string-array>   
+    <string-array name="spinner_types">
+        <item>"文字"</item>
+        <item>"图片"</item>
+    </string-array>   
+    
+    <string name="confirm">"确定"</string>
+    <string name="cancel">"取消"</string>
+    
+    
+    <string name="btn_add">"添加"</string>
+    <string name="btn_clear">"清除"</string>
+    <string name="setting">"设置"</string>
+    <string name="share">"分享"</string>
+    
+    <string name="spinner_type">"请选择类型"</string>
+    <string name="spinner_group">"请选择组"</string>
+    
+    <string name="radio_bw">"黑底白字"</string>
+    <string name="radio_wb">"白底黑字"</string>
+    
+    <string name="check_downloadnetPic">"下载网络图片"</string>
+    <string name="check_SearchBox">"打开搜索框"</string>
+    <string name="title_help">"帮助"</string>
+    <string name="title_about">"关于"</string>
+    <string name="title_back">"返回"</string>
+    
+</resources>
