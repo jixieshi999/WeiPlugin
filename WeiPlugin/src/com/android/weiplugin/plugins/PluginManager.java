@@ -6,16 +6,17 @@ import java.util.Properties;
 import android.content.Context;
 import android.widget.LinearLayout;
 
-import com.android.weiplugin.Globle;
+import com.android.weiplugin.Global;
 import com.android.weiplugin.action.Action;
 import com.android.weiplugin.action.UIPlugin;
 import com.android.weiplugin.actionloader.ActionLoader;
-import com.android.weiplugin.actionloader.PluginEntry;
 import com.android.weiplugin.data.Command;
+import com.android.weiplugin.data.PluginEntry;
 import com.android.weiplugin.log.LogTools;
 import com.android.weiplugin.tools.PluginTools;
 /**
  * manage all the actions ,kernel action ,..action and plugin acion and UI plugin action 
+ * 插件管理，管理所有的插件
  * 
  * @author jixieshi@me.com 20121207 
  * forgive my poor English
@@ -280,7 +281,7 @@ public class PluginManager {
                 result.extra = Command.Result.SUCCECSS;
             }else */if(ori.keyword.equals("_reloadplugin")){
                 LogTools.log("weibot doLogin");
-                ActionLoader.reloadClassPath(Globle.sContext);
+                ActionLoader.reloadClassPath(Global.sContext);
                 result.extra = Command.Result.SUCCECSS;
             }else if(ori.keyword.equals("_uiplugin")){
                 LogTools.log("weibot doLogin");

@@ -5,31 +5,31 @@ import java.util.ArrayList;
 
 import android.database.Cursor;
 
-import com.android.weiplugin.Globle;
-import com.android.weiplugin.actionloader.PluginEntry;
+import com.android.weiplugin.Global;
 import com.android.weiplugin.data.Command;
 import com.android.weiplugin.data.PluginCommand;
+import com.android.weiplugin.data.PluginEntry;
 
 public class PluginTools {
 
 	
 	public static void updatePluginToDatabase(String className,int  typeOrshow,int level,Command cmd){ 
 
-		boolean flag = Globle.mDatabaseHelper.isPluginExist(className);
+		boolean flag = Global.mDatabaseHelper.isPluginExist(className);
 		if(flag){
-			Globle.mDatabaseHelper.updatePlugin(className, typeOrshow, level);
+			Global.mDatabaseHelper.updatePlugin(className, typeOrshow, level);
 		}else{
 			if(cmd==null){
 				return;
 			}
             Object []objs = new Object[]{className,typeOrshow ,level,cmd.keyword};
-			Globle.mDatabaseHelper.addPlugin(objs);
+			Global.mDatabaseHelper.addPlugin(objs);
 //			Globle.mDatabaseHelper.addPlugin(entry);
 		}
     }
 	public static void addPluginToDatabase(String className,int  typeOrshow,int level,Command cmd,String name){ 
 		
-		boolean flag = Globle.mDatabaseHelper.isPluginExist(className);
+		boolean flag = Global.mDatabaseHelper.isPluginExist(className);
 		if(flag){
 //			Globle.mDatabaseHelper.updatePlugin(className, typeOrshow, level);
 		}else{
@@ -37,7 +37,7 @@ public class PluginTools {
 				return;
 			}
 			Object []objs = new Object[]{className,typeOrshow ,level,cmd.keyword,name};
-			Globle.mDatabaseHelper.addPlugin(objs);
+			Global.mDatabaseHelper.addPlugin(objs);
 //			Globle.mDatabaseHelper.addPlugin(entry);
 		}
 	}
@@ -54,7 +54,7 @@ public class PluginTools {
 //		testPrintTable("PluginsCommand");
 		int i=0;
 		for(String cmd:entry.pluginCommandList){
-			boolean flag = Globle.mDatabaseHelper.isPluginCommandExist(clsName, cmd) ;
+			boolean flag = Global.mDatabaseHelper.isPluginCommandExist(clsName, cmd) ;
 			if(flag){
 //			Globle.mDatabaseHelper.updatePlugin(className, typeOrshow, level);
 			}else{
@@ -72,7 +72,7 @@ public class PluginTools {
 				}
 				Object []objs = new Object[]{clsName ,entry.type,level++,cmd,name,discription,show};
 				try{
-					Globle.mDatabaseHelper.addPluginsCommand(objs);
+					Global.mDatabaseHelper.addPluginsCommand(objs);
 				}catch (Exception e) {
 					DebugTools.log(e);
 				}
@@ -83,7 +83,7 @@ public class PluginTools {
 		return level;
 	}
 	private static void testPrintTable(String tablename) {
-		Cursor cursor = Globle.mDatabaseHelper.ReadTable(tablename);
+		Cursor cursor = Global.mDatabaseHelper.ReadTable(tablename);
 		try{
 			while(cursor.moveToNext()){
 				String []names = cursor.getColumnNames();
@@ -116,20 +116,20 @@ public class PluginTools {
 			level = "10";
 		}
 		if(flag){
-			Globle.mDatabaseHelper.updatePluginCommand(clsName,cmd,show,level);
+			Global.mDatabaseHelper.updatePluginCommand(clsName,cmd,show,level);
 		}else{
 //			Globle.mDatabaseHelper.addPlugin(entry);
 		}
 	}
 	public static void addPluginToDatabase(PluginEntry entry){ 
-		boolean flag = Globle.mDatabaseHelper.isPluginExist(entry);
+		boolean flag = Global.mDatabaseHelper.isPluginExist(entry);
 		if(flag){
 //			Globle.mDatabaseHelper.updatePlugin(entry);
 		}else{
 			if(entry.cmd==null){
 				return;
 			}
-			Globle.mDatabaseHelper.addPlugin(entry);
+			Global.mDatabaseHelper.addPlugin(entry);
 		}
 	}
 //	public static void addPluginToDatabase(PluginEntry entry){ 
@@ -155,10 +155,10 @@ public class PluginTools {
     	Cursor cursor =null;
     	switch (type) {
 		case 1:
-			cursor = Globle.mDatabaseHelper.readPlugin();
+			cursor = Global.mDatabaseHelper.readPlugin();
 			break;
 		case 2:
-			cursor = Globle.mDatabaseHelper.readShowPlugin();
+			cursor = Global.mDatabaseHelper.readShowPlugin();
 			break;
 		default:
 			return null;

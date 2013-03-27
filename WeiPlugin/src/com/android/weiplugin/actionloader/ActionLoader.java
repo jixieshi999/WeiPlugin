@@ -23,10 +23,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
 
-import com.android.weiplugin.Globle;
+import com.android.weiplugin.Global;
 import com.android.weiplugin.action.Action;
 import com.android.weiplugin.action.UIPlugin;
 import com.android.weiplugin.data.Command;
+import com.android.weiplugin.data.PluginEntry;
 import com.android.weiplugin.log.Debug;
 import com.android.weiplugin.log.LogTools;
 import com.android.weiplugin.plugins.PluginManager;
@@ -38,7 +39,7 @@ import dalvik.system.DexClassLoader;
 
 /**
  * tools to load apk,load plugins
- * 
+ * <p>加载程序外部的 插件，以.apk为后缀
  * @author jixieshi@me.com 20121207 
  * forgive my poor English
  * */
@@ -102,11 +103,12 @@ public class ActionLoader {
 
 	/**
 	 * handle command to plugin action
+	 * <p>执行非UI类型的接口方法
 	 * */
 	public static void handlePluginAction(Action action,Command param) {
 
 		if(mPluginClass==null){
-			reloadClassPath(Globle.sContext);
+			reloadClassPath(Global.sContext);
 		}
         runAction(action, param);
         
@@ -150,14 +152,14 @@ public class ActionLoader {
 
 	}
 	/**
-	 * 处理插件apk中的UI插件
+	 * 处理插件apk中的UI插件,执行插件中实现的UI接口
 	 * */
 	public static boolean runUIAction(Action action,Context context,LinearLayout layout,Command cmd) {
 		boolean flag = false;
 		PluginEntry entry ;
 		String path;
 		if(null==mPluginClass){
-			reloadClassPath(Globle.sContext);
+			reloadClassPath(Global.sContext);
 		}
 		if(null==mPluginClass){
 			DebugTools.log("no UI plugins ");
@@ -227,6 +229,7 @@ public class ActionLoader {
 	
 	/**
 	 * handle the plugin action
+	 * <p>通过反射执行，接口中的 action方法
 	 * */
 	private static void handleCommandAction(Command data, Command recieve,
 			Class classActionImpl,  Object instanceActionImpl,PluginEntry entry )
@@ -236,7 +239,7 @@ public class ActionLoader {
 //		Object instanceCommand = getLoadClassInstance(classCommand,CommandName);
         Object instanceCommand = getCommandClassInstance(entry.clsName);
 		
-		copyCommand2Param(data,  instanceCommand,getCommandClass(entry.clsName));
+		copyCommand2Object(data,  instanceCommand,getCommandClass(entry.clsName));
 
 		// getName
 		Method methodGetName = classActionImpl
@@ -257,7 +260,7 @@ public class ActionLoader {
 			    
 			}else{
 			    Command mainCommand = new Command();
-			    copyParam2Command(mainCommand, returnValue,getCommandClass(entry.clsName));
+			    copyObject2Command(mainCommand, returnValue,getCommandClass(entry.clsName));
 			    entry.cmd = mainCommand;
 			}
 		}
@@ -271,7 +274,7 @@ public class ActionLoader {
 				new Object[] { instanceCommand });
 
 		//recieve Command that Method action() returned
-		copyParam2Command(recieve,  returnValue,getCommandClass(entry.clsName));
+		copyObject2Command(recieve,  returnValue,getCommandClass(entry.clsName));
 //				Field fielKeyword = classCommand.getDeclaredField("extra");
 //				String values = (String) fielKeyword.get(returnValue);
 		LogTools.log("reflect action " + recieve);
@@ -289,7 +292,7 @@ public class ActionLoader {
         Object instanceCommand = getCommandClassInstance(entry.clsName);
 //				Object instanceCommand = classCommand.newInstance();
 		
-		copyCommand2Param(data,  instanceCommand,getCommandClass(entry.clsName));
+		copyCommand2Object(data,  instanceCommand,getCommandClass(entry.clsName));
 		
 		// getName
 		Method methodGetName = classActionImpl
@@ -310,7 +313,7 @@ public class ActionLoader {
 					(Object[]) null);
 			
 			Command mainCommand = new Command();
-			copyParam2Command(mainCommand, returnValue,getCommandClass(entry.clsName));
+			copyObject2Command(mainCommand, returnValue,getCommandClass(entry.clsName));
 			entry.cmd = mainCommand;
 		}
 		// invoke action
@@ -321,7 +324,7 @@ public class ActionLoader {
 		returnValue = methodAction.invoke(instanceActionImpl,
 				new Object[] { layout,context,instanceCommand });
 
-		copyParam2Command(result,  returnValue,getCommandClass(entry.clsName));
+		copyObject2Command(result,  returnValue,getCommandClass(entry.clsName));
 		//recieve Command that Method action() returned
 //		copyParam2Command(recieve, classCommand, returnValue);
 //				Field fielKeyword = classCommand.getDeclaredField("extra");
@@ -329,7 +332,12 @@ public class ActionLoader {
 		LogTools.log("reflect action " +" UI : "+returnValue);
 	}
 
-	private static void copyCommand2Param(Command data,
+
+    /**
+     * 将Command类中的数据copy到 不同ClassLoader加载的Command Object中
+     * <p>是通过反射来实现
+     * **/
+	private static void copyCommand2Object(Command data,
 			 Object instanceCommand,Class CommandClass)
 					{
 		try{
@@ -339,7 +347,11 @@ public class ActionLoader {
 		}
 		
 	}
-	private static void copyParam2Command(Command data,
+    /**
+     * 将不同ClassLoader加载的Command Object中的数据copy到 Command类 中
+     * <p>是通过反射来实现
+     * **/
+	private static void copyObject2Command(Command data,
 			 Object instanceCommand,Class CommandClass)
 	{
 		try{
@@ -351,7 +363,7 @@ public class ActionLoader {
 	}
 	/**
 	 * copy command data to instanceCommand use reflect 
-	 * 
+	 * <p>此处是否可以考虑使用序列化（command实现序列化），不用反射，待验证，优化
 	 * @param data ori data
 	 * @param classCommand load Command class
 	 * @param instanceCommand recive data,equals of return value
@@ -438,6 +450,8 @@ public class ActionLoader {
 	/**
 	 * get plugin class and type from apk activity,
 	 * that activity must have implements {@link weibot.actionPluginAction}
+	 * <p>通过加载android apk包，获取第一个activity名称，然后加载该activity，得到配置信息（插件的类名等）
+	 * <p>功能就是读取配置信息，返回一个PluginEntry实体，待优化
 	 * return plugin class entry with arraylist data
 	 * */
 	private static ArrayList<PluginEntry> getPluginClassName(Context context, String path,
@@ -505,6 +519,9 @@ public class ActionLoader {
 		}
 		return list;
 	}
+	/**
+	 * 将插件信息插入到数据库中
+	 * **/
 	private static void insertActionInfo(Properties pros,int type,int sequence,String clsName) {
             PluginEntry entry = new PluginEntry();
             entry.clsName =clsName;
@@ -537,6 +554,7 @@ public class ActionLoader {
             sequence = PluginTools.addPluginCommandToDatabase(entry);
 //                  PluginTools.addPluginToDatabase(action.getClass().getName(), PluginEntry.Type.Kernel, sequence++, cmd,action.getName());
     }
+	
 	private static void testReflect(Class classActionImpl) {
 		Method []methods = classActionImpl.getDeclaredMethods();
 		for(Method method :methods){
@@ -592,86 +610,7 @@ public class ActionLoader {
 		LogTools.log("reflect","copy param end-----------------------------------------");
 	}
 	
-	/**
-	 * just for test copy from the internet 
-	 * */
-	public void LoadAPK(Bundle paramBundle, String dexpath, String dexoutputpath,Context context) {
-		ClassLoader localClassLoader = ClassLoader.getSystemClassLoader();
-		DexClassLoader localDexClassLoader = new DexClassLoader(dexpath,
-				dexoutputpath, null, localClassLoader);
-		try {
-			PackageInfo plocalObject = context.getPackageManager()
-					.getPackageArchiveInfo(dexpath, 1);
-
-			if ((plocalObject.activities != null)
-					&& (plocalObject.activities.length > 0)) {
-				String activityname = plocalObject.activities[0].name;
-				Log.d(TAG, "activityname = " + activityname);
-				
-				Class localClass = localDexClassLoader.loadClass(activityname);
-				Constructor localConstructor = localClass
-						.getConstructor(new Class[] {});
-				Object instance = localConstructor.newInstance(new Object[] {});
-				Log.d(TAG, "instance = " + instance);
-
-				Method localMethodSetActivity = localClass.getDeclaredMethod(
-						"setActivity", new Class[] { Activity.class });
-				localMethodSetActivity.setAccessible(true);
-				localMethodSetActivity.invoke(instance, new Object[] { this });
-
-				Method methodonCreate = localClass.getDeclaredMethod(
-						"onCreate", new Class[] { Bundle.class });
-				methodonCreate.setAccessible(true);
-				methodonCreate.invoke(instance, new Object[] { paramBundle });
-			}
-			return;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
 	
-	/**
-	 * get new dex loader and init loader
-	 * */
-//	public static URLClassLoader getURLClassLoader() {
-//
-//		if (loader == null) {
-//			String fileNames[] = listFileNames();
-//			for (String filename : fileNames) {
-//				LogTools.log("get plugin list name : "+filename);
-//				
-//				if (filename.endsWith(".apk")) {
-//					mClassPath.add(filename);
-//
-//				}/* else if (filename.endsWith(".xml")) {
-//					xmlName.add(filename);
-//				}*/
-//			}
-//			if (mClassPath.size() > 0) {
-//				URL urls[] = new URL[mClassPath.size()];
-//				int size = mClassPath.size();
-//				for (int i = 0; i < size; i++) {
-//					try {
-//						urls[i] = new URL("file:" + mBasePluginPath +File.separator
-//								+ mClassPath.get(i));
-//						LogTools.log(urls[i].toString());
-//					} catch (MalformedURLException e) {
-//						System.out.println(e);
-//						LogTools.log(e);
-//						throw new RuntimeException("����libĿ¼��jar�ļ���?", e);
-//					}
-//				}
-//
-//				loader = new URLClassLoader(urls,Thread.currentThread().getContextClassLoader());
-//				
-//			} else {
-//
-//				LogTools.log("get plugin list is null");
-//				LogTools.logToFile("actionloader", "get plugin list is null");
-//			}
-//		}
-//		return loader;
-//	}
 
 	public static void loadDexPath() {
 		String fileNames[] = listFileNames();
@@ -694,6 +633,9 @@ public class ActionLoader {
 		return ;
 	}
 
+	/**
+	 * 加载apk文件
+	 * */
 	public static void loadPluginClass(Context context) {
 
 		ArrayList<String> classPath = getClassPath();

@@ -1,8 +1,9 @@
 package com.android.weiplugin.data;
 
 
-
-
+/**
+ * 用于存储插件信息
+ * */
 public class PluginCommand {
 
 	public interface Type{

@@ -8,24 +8,27 @@ import android.content.Intent;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import com.android.weiplugin.Globle;
+import com.android.weiplugin.Global;
 import com.android.weiplugin.Robot;
 import com.android.weiplugin.action.Action;
 import com.android.weiplugin.data.Command;
 import com.android.weiplugin.log.LogTools;
 
+/**
+ * 控制接口的实现，可以播放音乐，显示悬浮窗口等，可扩展实现
+ * **/
 public class RobotPlugin implements Action {
 
     Robot robot = null;
     Robot getRobot(){
         if(robot==null){
-            robot = new Robot(Globle.sContext);
+            robot = new Robot(Global.sContext);
         }
         return robot;
     }
     void next() {
     	sengMediaIntent(KeyEvent.KEYCODE_MEDIA_NEXT);
-		Toast.makeText(Globle.sContext, "next", Toast.LENGTH_LONG).show();
+		Toast.makeText(Global.sContext, "next", Toast.LENGTH_LONG).show();
     }
     void sengMediaIntent(int keyCode){
 		// create a new intent specifically aimed at the current registered
@@ -38,19 +41,17 @@ public class RobotPlugin implements Action {
 		targetedIntent.putExtra(Intent.EXTRA_KEY_EVENT, keyEvent);
 
 		// 手动发送该广播至目标对象去处理，该广播不再是系统发送的了
-		Globle.sContext.sendBroadcast(targetedIntent, null);
+		Global.sContext.sendBroadcast(targetedIntent, null);
 
 		targetedIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
 		keyEvent = new KeyEvent(KeyEvent.ACTION_UP,keyCode);
 		// 作为附加值添加至mbIntent对象中
 		targetedIntent.putExtra(Intent.EXTRA_KEY_EVENT, keyEvent);
-		Globle.sContext.sendBroadcast(targetedIntent, null);
-	
-    	
+		Global.sContext.sendBroadcast(targetedIntent, null);
     }
 	void play() {
 		sengMediaIntent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
-		Toast.makeText(Globle.sContext, "play", Toast.LENGTH_LONG).show();
+		Toast.makeText(Global.sContext, "play", Toast.LENGTH_LONG).show();
 	}
     
     @Override
@@ -77,7 +78,7 @@ public class RobotPlugin implements Action {
                 int key = Integer.valueOf(name);
                 name = getRandomToast(key);
             }
-            Toast.makeText(Globle.sContext, name, Toast.LENGTH_LONG).show();
+            Toast.makeText(Global.sContext, name, Toast.LENGTH_LONG).show();
             result.extra = Command.Result.SUCCECSS;
         }else if(ori.keyword.equals("_RobotUpdate")){
             ArrayList<String> params = Command.splitParam(result.getParam());
@@ -113,6 +114,9 @@ public class RobotPlugin implements Action {
         }
         return true; 
         } 
+    /**
+     * 测试随机显示toast
+     * */
     String getRandomToast(int key){
         StringBuilder sb = new StringBuilder();
         Random ran = new Random(System.currentTimeMillis());
@@ -178,9 +182,10 @@ public class RobotPlugin implements Action {
 	    proper.put("DiscriptionList", CommandList);
 	    
 
+	    /**此处用来控制是否默认显示在列表当中，0表示显示，1表示隐藏**/
 	    ArrayList<Integer> ShowList = new ArrayList<Integer>();
-	    ShowList.add(1);
-	    ShowList.add(1);
+	    ShowList.add(0);
+	    ShowList.add(0);
 	    ShowList.add(0);
 	    ShowList.add(0);
 	    proper.put("ShowList", ShowList);

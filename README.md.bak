@@ -1,0 +1,20 @@
+WeiPlugin
+=========
+
+android plugin project
+
+a simple way to add plugin for you android application
+
+
+WeiPlugin is the main android project 
+
+
+WeiPluginImplDemo is the normal plugin without UI demo project
+
+
+WeiUIPluginImplDemo is the UI plugin demo project
+
+test ,
+1.install WeiPlugin.apk
+2.push WeiPluginImplDemo.apk(or WeiUIPluginImplDemo.apk) into android device /sdcard/weiplugin/plugin/ (if you dont has sdcard support , then it insted /data/data/files/weiplugin/plugin/)
+3.launch WeiPlugin.apk

@@ -3,7 +3,7 @@ package com.android.weiplugin.action;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.android.weiplugin.actionloader.PluginEntry;
+import com.android.weiplugin.data.PluginEntry;
 
 
 /**

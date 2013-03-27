@@ -15,11 +15,6 @@
     <string name="filename_word">"Words.txt"</string>
     <string name="filename_config">"Config.txt"</string>
     
-    <string name="filename_word_eat">"Eat.txt"</string>
-    <string name="filename_word_drink">"Drink.txt"</string>
-    <string name="filename_word_sleep">"Sleep.txt"</string>
-    <string name="filename_word_mood">"Mood.txt"</string>
-    <string name="filename_word_speak">"Speak.txt"</string>
     <string name="rss_name">"RSS"</string>
     
         

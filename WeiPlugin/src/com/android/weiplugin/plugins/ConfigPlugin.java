@@ -7,6 +7,9 @@ import com.android.weiplugin.action.Action;
 import com.android.weiplugin.config.Configs;
 import com.android.weiplugin.data.Command;
 
+/**
+ * 载入配置文件接口实现
+ * **/
 public class ConfigPlugin implements Action{
 
     public static final String TAG = "SettingPlugin";

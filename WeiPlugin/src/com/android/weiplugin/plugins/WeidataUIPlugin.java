@@ -40,9 +40,9 @@ import com.android.weiplugin.R;
 import com.android.weiplugin.action.PluginAction;
 import com.android.weiplugin.action.PluginTools;
 import com.android.weiplugin.action.UIPlugin;
-import com.android.weiplugin.actionloader.PluginEntry;
 import com.android.weiplugin.config.Configs;
 import com.android.weiplugin.data.Command;
+import com.android.weiplugin.data.PluginEntry;
 import com.android.weiplugin.log.Debug;
 import com.android.weiplugin.tools.FilePathTools;
 

@@ -31,7 +31,7 @@ public class Apllications extends Application {
     void init(){
 //        Configs.DEBUG = getResources().getBoolean(R.bool.debug);
         Configs.DEBUG = true;
-        Globle.init(getApplicationContext());
+        Global.init(getApplicationContext());
         if(SDCardTools.ExistSDCard()){
             Configs.EXTERNAL_PATH =  Environment.getExternalStorageDirectory().getPath();
         }else{

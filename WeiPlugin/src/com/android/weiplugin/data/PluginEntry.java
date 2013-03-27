@@ -1,11 +1,11 @@
-package com.android.weiplugin.actionloader;
+package com.android.weiplugin.data;
 
 import java.util.ArrayList;
 
-import com.android.weiplugin.data.Command;
-import com.android.weiplugin.data.PluginCommand;
 
-
+/**
+ * 用于存储插件信息
+ * */
 public class PluginEntry extends PluginCommand{
 
 	public ArrayList<String> pluginCommandList = null;

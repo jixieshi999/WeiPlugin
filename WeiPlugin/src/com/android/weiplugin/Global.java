@@ -6,7 +6,7 @@ import android.content.Context;
 import com.android.weiplugin.config.Configs;
 import com.android.weiplugin.database.DatabaseHelper;
 
-public class Globle {
+public class Global {
 
     /**
      * application context 

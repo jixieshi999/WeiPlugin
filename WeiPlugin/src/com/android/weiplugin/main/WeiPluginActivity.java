@@ -22,14 +22,17 @@ import android.widget.TextView;
 import com.android.weiplugin.BaseActivity;
 import com.android.weiplugin.R;
 import com.android.weiplugin.action.Action;
-import com.android.weiplugin.actionloader.PluginEntry;
 import com.android.weiplugin.data.Command;
 import com.android.weiplugin.data.PluginCommand;
+import com.android.weiplugin.data.PluginEntry;
 import com.android.weiplugin.log.LogTools;
 import com.android.weiplugin.plugins.PluginManager;
 import com.android.weiplugin.tools.DebugTools;
 import com.android.weiplugin.tools.PluginTools;
 
+/**
+ * 主程序
+ * */
 public class WeiPluginActivity  extends BaseActivity implements Action{
     /** Called when the activity is first created. */
 
@@ -182,32 +185,8 @@ public class WeiPluginActivity  extends BaseActivity implements Action{
 //              handler.sendEmptyMessageDelayed(MSG_PERFORM_CLICK, 1000);
                 String str = mEdtWords.getText().toString();
                 DebugTools.log("add : "+str);
-                
-                
                 LogTools.logToFile("main", "add command : "+str);
-
-//                Toast.makeText(WeibotActivity.this, "add command : "+str, Toast.LENGTH_SHORT).show();
-//              mTxt.append(str);
-//              mTxt.append("\n");
-//              
-//              int len = mTxt.length();
-//              
-//              DebugTools.log("txt size : "+len);
-//              if(mTxt.length()>10000){
-//                  mTxt.delete(0, len);
-//              }
-//              mTxtView.setText(mTxt);
                 break;
-//          case R.id.btnClear:
-//              mEdtWords.setText("");
-//              mTxt.delete(0, mTxt.length());
-//              mTxtView.setText(mTxt);
-
-//              handler.sendEmptyMessageDelayed(MSG_LOAD_UI_PLUGIN, 1000);
-//              PluginTools.readAllPluginFromDatabase();
-//              PluginTools.readShowPluginFromDatabase();
-//              onBackPressed();
-//              break;
             case R.id.tool_bar_left:
                 Command cmd = new Command();
                 cmd.keyword="asd";
@@ -224,18 +203,12 @@ public class WeiPluginActivity  extends BaseActivity implements Action{
                 }
                 int type = cmd.pluginType;
                 switch (type) {
-                case PluginEntry.Type.Setting:
-//                    Intent setintent = new Intent(WeibotActivity.this,SettingActivity.class);
-//                    startActivity(setintent);
-                    break;
                 case PluginEntry.Type.UI:
-
                     boolean flag = handleUICommand(cmd);
                     if(!flag){
 //                      loadUIPlugin(cmd);
                     }
                     break;
-                    
                 default:
                     getPluginManager().handleAction(cmd);
                     break;
@@ -245,15 +218,15 @@ public class WeiPluginActivity  extends BaseActivity implements Action{
         }
 
     };
-    private boolean handleUICommand(Command cmd) {
+    public boolean handleUICommand(Command cmd) {
         boolean flag = handleUIAction(mContentLayout, WeiPluginActivity.this, cmd);
         return flag;
     }
 
-    public boolean handleUIAction(LinearLayout layout,Context context,Command cmd){
+    protected boolean handleUIAction(LinearLayout layout,Context context,Command cmd){
             return getPluginManager().handleUIAction(layout, context, cmd);
     }
-    public void addAction(Action actoin){
+    protected void addAction(Action actoin){
         getPluginManager().addAction(actoin);
     }
     PluginManager getPluginManager(){
@@ -270,26 +243,6 @@ public class WeiPluginActivity  extends BaseActivity implements Action{
     Context mContext;
 
     PluginManager mPluginManager;
-    
-    private void udateScreenLayout() { }
-    /**
-     * 判断是否全屏
-     * */
-    private boolean getScreenOnorNot() {
-        return mScreenOnAll;
-    }
-    
-    private boolean screenOnorNot() {
-        mScreenOnAll = !mScreenOnAll;
-        return mScreenOnAll;
-    }
-    ArrayList<Command> eatLists ;
-    ArrayList<Command> moodLists;
-    ArrayList<Command> sleepLists;
-    Random mRandom = new Random(System.currentTimeMillis());
-    /**
-     * 
-     */
     
     @Override
     protected void onStop() {
@@ -316,52 +269,11 @@ public class WeiPluginActivity  extends BaseActivity implements Action{
             addCommandBtn(command);
         }
             
-        command = new Command();
-        command.keyword="_setting";
-        command.words = getString(R.string.setting);
-        command.pluginType = PluginEntry.Type.Setting;
-        addCommandBtn( command);
-        
-    }
-    void initBottomBar(){
-        DisplayMetrics dm = new DisplayMetrics();  
-        getWindowManager().getDefaultDisplay().getMetrics(dm);  
-        Command command =null;
-//        tv.setText("屏幕分辨率为:"+dm.widthPixels+" * "+dm.heightPixels);   
-        int tmp  = dm.widthPixels/5;
-        BOTTOM_BUTTON = tmp<=0?BOTTOM_BUTTON:tmp;
-        command = new Command();
-        command.keyword="_rss";
-        command.words = "rss";
-        command.pluginType = PluginEntry.Type.UI;
-        addCommandBtn(command);
-        
-        command = new Command();
-        command.keyword="_play";
-        command.words = "play";
-        addCommandBtn( command);
-        
-        command = new Command();
-        command.keyword="_setting";
-        command.words = "setting";
-        command.pluginType = PluginEntry.Type.Setting;
-        addCommandBtn( command);
-        
-        command = new Command();
-        command.keyword="_plugin";
-        command.words = "plugin";
-        command.pluginType = PluginEntry.Type.UI;
-        addCommandBtn( command);
-
-        command = new Command();
-        command.keyword="_next";
-        command.words = "next";
-        addCommandBtn(command);
-
-        command = new Command();
-        command.keyword="_prev";
-        command.words = "prev";
-        addCommandBtn(command);
+//        command = new Command();
+//        command.keyword="_setting";
+//        command.words = getString(R.string.setting);
+//        command.pluginType = PluginEntry.Type.Setting;
+//        addCommandBtn( command);
         
     }
 
@@ -383,10 +295,6 @@ public class WeiPluginActivity  extends BaseActivity implements Action{
         btn.setTextColor(Color.BLACK);
     }
     
-    void addBottomButton(CommandButton btn){
-//      mBottomBarScroll = new HorizontalScrollView(this);
-//      mBottomBarScroll.addView(child, index)
-    }
 
     static class CommandButton extends TextView{
         

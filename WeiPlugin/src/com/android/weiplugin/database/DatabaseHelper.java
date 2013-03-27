@@ -13,8 +13,8 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.android.weiplugin.R;
-import com.android.weiplugin.actionloader.PluginEntry;
 import com.android.weiplugin.data.Command;
+import com.android.weiplugin.data.PluginEntry;
 import com.android.weiplugin.log.Debug;
 import com.android.weiplugin.log.LogTools;
 import com.android.weiplugin.tools.DebugTools;

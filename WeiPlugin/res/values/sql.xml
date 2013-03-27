@@ -31,7 +31,9 @@
             show int default 0 
         );
         
-        #插件表;
+        #插件表
+        show @是否显示
+        ;
         create table PluginsCommand(
             className vacher(100) not null,
             type int,level int,name vacher(20),

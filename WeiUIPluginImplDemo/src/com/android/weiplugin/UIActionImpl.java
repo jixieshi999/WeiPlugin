@@ -7,6 +7,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -176,6 +178,7 @@ public class UIActionImpl implements UIPlugin {
         handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
+                TranslateAnimation anim = null;
                 switch (msg.what) {
                 case MSG_DIALOG_SHOW:
                     if(null==toast){
@@ -194,13 +197,19 @@ public class UIActionImpl implements UIPlugin {
                 case MSG_GET_RSS:
                     mLayout.removeAllViews();
                     TextView tv = new TextView(mContext);
-                    tv.setText("uiaction1");
+                    tv.setText("uiaction2");
+                      anim = new TranslateAnimation(0, 100, 0, 1);
+                    anim.setDuration(1000);
+                    tv.startAnimation(anim);
                     mLayout.addView(tv);
                     break;
                 case MSG_GET_RSS_DATA:
-                    mLayout.removeAllViews();
+//                    mLayout.removeAllViews();
                     TextView tv2 = new TextView(mContext);
-                    tv2.setText("uiaction2");
+                    tv2.setText("uiaction1");
+                      anim = new TranslateAnimation(200, 0, 1, 1);
+                    anim.setDuration(1000);
+                    tv2.startAnimation(anim);
                     mLayout.addView(tv2);
                     break;
                 }
