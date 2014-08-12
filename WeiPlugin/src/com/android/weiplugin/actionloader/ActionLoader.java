@@ -641,7 +641,10 @@ public class ActionLoader {
 		ArrayList<String> classPath = getClassPath();
 		for (String path : classPath) {
 			DexClassLoader loader = new DexClassLoader(path,
-					FilePathTools.sPlugin, null,ClassLoader.getSystemClassLoader());
+					FilePathTools.soutPlugin, null,ClassLoader.getSystemClassLoader().getParent());
+//			DexClassLoader localDexClassLoader = new DexClassLoader(path,
+//					FilePathTools.sPlugin, null, ClassLoader.getSystemClassLoader().getParent());
+			
 			try {
 				ArrayList<PluginEntry> entryList = getPluginClassName(context, path, loader);
 				int sequence = 5;

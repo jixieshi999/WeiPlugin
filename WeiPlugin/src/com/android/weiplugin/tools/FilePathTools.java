@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Environment;
 
 import com.android.weiplugin.R;
 import com.android.weiplugin.config.Configs;
@@ -32,6 +33,7 @@ public class FilePathTools {
     public static String sWordsSleepPath = "";
     public static String sWordsSpeakPath = "";
     public static String sPlugin = "";
+    public static String soutPlugin = "";
     
     private static Context mContext;
     
@@ -48,6 +50,14 @@ public class FilePathTools {
 //        sImagePath = sRootPath+res.getString(R.string.path_image)+File.separator;
 //        makeFilePathExist(sImagePath);
         
+
+        if(SDCardTools.ExistSDCard()){
+//            Configs.EXTERNAL_PATH =  Environment.getExternalStorageDirectory().getPath();
+        }else{
+        }
+        /**鱿鱼4.1后谷歌禁止冲外部目录加载apk或者dex，所以插件只能放到程序内部目录中*/
+        soutPlugin=  context.getFilesDir().getAbsolutePath()+File.separator+res.getString(R.string.path_plugin)+File.separator;
+        makeFilePathExist(soutPlugin);
         sPlugin = sRootPath+res.getString(R.string.path_plugin)+File.separator;
         makeFilePathExist(sPlugin);
         

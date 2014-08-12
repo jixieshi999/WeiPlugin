@@ -184,10 +184,10 @@ public class RobotPlugin implements Action {
 
 	    /**此处用来控制是否默认显示在列表当中，0表示显示，1表示隐藏**/
 	    ArrayList<Integer> ShowList = new ArrayList<Integer>();
-	    ShowList.add(0);
-	    ShowList.add(0);
-	    ShowList.add(0);
-	    ShowList.add(0);
+	    ShowList.add(1);
+	    ShowList.add(1);
+	    ShowList.add(1);
+	    ShowList.add(1);
 	    proper.put("ShowList", ShowList);
 		return proper;
 	}
